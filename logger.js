@@ -1,10 +1,19 @@
-console.log(__filename);
-console.log(__dirname);
+const EventEmitter = require("events");
+
 var url = "http://mylooger.io/log";
 
-function log(message) {
-  //
-  console.log(message);
+class Logger extends EventEmitter {
+  log(message) {
+    //
+    console.log(message);
+
+    // Register Event
+    // event and Listenet Order is impartant
+    // emit means make an NOise or singaling
+    this.emit("messageLogged");
+    // Rasise Event
+    this.emit("msgWithArg", { id: 1, url: "http://emit/" });
+  }
 }
 
-module.exports = log;
+module.exports = Logger;

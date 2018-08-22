@@ -1,14 +1,19 @@
 // Class
-const EventEmitter = require("events");
 
-const emitter = new EventEmitter();
+// // ES6 fromating
+// emitter.on("msgWithArg", arg => {
+//   console.log("Listener called", arg);
+// });
+
+const Logger = require("./logger");
+const logger = new Logger();
 
 // Listners is a fun it will called when msg log raised
-emitter.on("messageLogged", function() {
+logger.on("messageLogged", function() {
   console.log("Listener called");
 });
 
-// Register Event
-// event and Listenet Order is impartant
-// emit means make an NOise or singaling
-emitter.emit("messageLogged");
+logger.on("msgWithArg", function(arg) {
+  console.log("Listener called", arg);
+});
+logger.log("message");
