@@ -15,6 +15,11 @@ const server = http.createServer((req, res) => {
     res.end();
     console.log("Port Listned");
   }
+
+  if (req.url == "/api/node") {
+    res.write(JSON.stringify([1, 2, 3, 4, 5]));
+    res.end();
+  }
 });
 server.listen(3000);
 
