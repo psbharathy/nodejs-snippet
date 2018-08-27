@@ -9,6 +9,7 @@
   "author": "P Subramania Bharathy",
   "license": "MIT",
   "dependencies": {
+    "mongoose": "^5.2.9",
     "underscore": "^1.9.1"
   }
 }
