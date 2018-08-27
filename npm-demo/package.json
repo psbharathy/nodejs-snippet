@@ -7,5 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "P Subramania Bharathy",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "underscore": "^1.9.1"
+  }
 }
