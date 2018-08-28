@@ -12,6 +12,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 
 // This is a middleware piece
+// app.use();
 // Pug Package is for Template Engine
 
 app.use(helmet());
