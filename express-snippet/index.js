@@ -1,3 +1,6 @@
+const startDebugger = require("debug")("app:startup");
+const dbDebugger = require("debug")("app:db");
+
 const logger = require("./middleware/logger");
 
 const config = require("config");
@@ -20,7 +23,8 @@ console.log(config.get("mail.host"));
 console.log("App Mail Password : " + config.get("mail.password"));
 if (app.get("env") === "development") {
   app.use(morgan("tiny"));
-  console.log("Morgan enbaled");
+  startDebugger("Morgan enbaled");
+  dbDebugger("Database debug enbaled");
 }
 
 app.use(logger);
