@@ -19,6 +19,14 @@ app.get("/api/categories", (req, res) => {
   res.send(["Air", "Books", "Cartoon"]);
 });
 
+app.put("api/categories/:id", (req, res) => {
+  // Look up the course
+  // if not retrun 404
+  // validate the course
+  // update the coure
+  // return updated course
+});
+
 app.post("/api/categories", (req, res) => {
   const schema = {
     name: Joi.string()
