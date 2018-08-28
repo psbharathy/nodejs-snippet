@@ -1,9 +1,14 @@
+const logger = require("./middleware/logger");
 const Joi = require("joi");
 const express = require("express");
 const app = express();
 
 // This is a middleware priec
 app.use(express.json());
+
+app.use(logger);
+
+// Creating Custom Middleware
 
 const categories = [
   { id: 1, name: "Book" },
@@ -51,6 +56,7 @@ app.post("/api/categories", (req, res) => {
   categories.push(category);
   res.send(category);
 });
+
 app.get("/api/categories/:id", (req, res) => {
   const category = categories.find(c => c.id === parseInt(req.params.id));
   if (!category)
