@@ -1,0 +1,8 @@
+{
+  "name": "My NodeJs App - Development",
+  "mail": {
+    "host": "localhost",
+    "username": "local",
+    "password": "nodeapp_password"
+  }
+}

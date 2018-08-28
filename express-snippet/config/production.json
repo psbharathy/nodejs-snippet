@@ -1,0 +1,8 @@
+{
+  "name": "My NodeJs App - Production",
+  "mail": {
+    "host": "mynodejs.app",
+    "username": "root",
+    "port": "2525"
+  }
+}

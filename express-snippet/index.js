@@ -1,4 +1,6 @@
 const logger = require("./middleware/logger");
+
+const config = require("config");
 const Joi = require("joi");
 const express = require("express");
 const app = express();
@@ -11,6 +13,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 console.log(app.get("env"));
+
+console.log(config.get("name"));
+console.log(config.get("mail.host"));
+
+console.log("App Mail Password : " + config.get("mail.password"));
 if (app.get("env") === "development") {
   app.use(morgan("tiny"));
   console.log("Morgan enbaled");

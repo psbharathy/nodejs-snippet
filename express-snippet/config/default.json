@@ -1,0 +1,8 @@
+{
+  "name": "My NodeJs App",
+  "mail": {
+    "host": "localhost",
+    "username": "local",
+    "port": "25"
+  }
+}
