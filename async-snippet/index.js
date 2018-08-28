@@ -1,10 +1,13 @@
 console.log("Before");
-setTimeout(() => {
-  console.log("Reading User from DB");
-}, 2000);
+const user = getUser(1);
+console.log(user);
 console.log("After");
 
-// Output
-// Before
-// After
-// Reading User from DB
+function getUser(id) {
+  setTimeout(() => {
+    console.log("Reading User from DB");
+    return { id: id, user: "Bharathy" };
+  }, 2000);
+
+  return 1;
+}
