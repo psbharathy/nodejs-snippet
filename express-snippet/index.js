@@ -10,8 +10,14 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(morgan("tiny"));
+console.log(app.get("env"));
+if (app.get("env") === "development") {
+  app.use(morgan("tiny"));
+  console.log("Morgan enbaled");
+}
+
 app.use(logger);
+// process is global module
 
 // Creating Custom Middleware
 
