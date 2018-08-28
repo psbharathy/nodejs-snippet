@@ -10,13 +10,17 @@ const app = express();
 const helmet = require("helmet");
 const morgan = require("morgan");
 
-// This is a middleware priec
+// This is a middleware piece
+// Pug Package is for Template Engine
+
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.set("view engine", "pug");
+// optional
+app.set("views", "./views");
 console.log(app.get("env"));
-
 console.log(config.get("name"));
 console.log(config.get("mail.host"));
 
@@ -39,6 +43,10 @@ const categories = [
 ];
 
 app.get("/", (req, res) => {
+  res.render("index", {
+    title: "This is NodeJs",
+    message: "Hello World !"
+  });
   res.send("Hello World !!!");
 });
 
