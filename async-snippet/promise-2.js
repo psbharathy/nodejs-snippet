@@ -1,6 +1,5 @@
 console.log("Before");
-
-// CallBack Implementation
+// CallBack Based approach
 // getUser(1, user => {
 //   getRepositories(user.gitHubUsername, repos => {
 //     getCommits(repos[0], commits => {
@@ -9,12 +8,22 @@ console.log("Before");
 //   });
 // });
 
-// Promises Pattern Implementation
-getUser(1)
-  .then(user => getRepositories(user.gitHubUsername))
-  .then(repos => getCommits(repos[0]))
-  .then(commits => console.log("Commits", commits))
-  .catch(err => console.log("Eorror", err.message));
+// Promises Based approach
+// getUser(1)
+//   .then(user => getRepositories(user.gitHubUsername))
+//   .then(repos => getCommits(repos[0]))
+//   .then(commits => console.log("Commits", commits))
+//   .catch(err => console.log("Eorror", err.message));
+
+// Async - Await approach
+async function displayCommits() {
+  const user = await getUser(1);
+  const repos = await getRepositories(user.gitHubUsername);
+  const commits = await getCommits(repos[0]);
+  console.log(commits);
+}
+// Async and await is syntacitcal sugar
+displayCommits();
 
 console.log("After");
 
@@ -22,7 +31,7 @@ function getUser(id) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       console.log("Consume User from DB...");
-      resolve({ id: id, gitHubUsername: "mosh" });
+      resolve({ id: 1, gitHubUsername: "mosh" });
       // reject(new Error(" Promise User Reject"));
     }, 2000);
   });
