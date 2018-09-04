@@ -14,7 +14,7 @@
 
 // Async and Await approach
 
-async function displayMovies() {
+async function notifyCustmoer() {
   try {
     const customer = await getCustomer(1);
     console.log("Customer: ", customer);
@@ -27,7 +27,7 @@ async function displayMovies() {
     console.log("Error", err.message);
   }
 }
-displayMovies();
+notifyCustmoer();
 function getCustomer(id) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
