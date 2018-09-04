@@ -17,10 +17,14 @@ console.log("Before");
 
 // Async - Await approach
 async function displayCommits() {
-  const user = await getUser(1);
-  const repos = await getRepositories(user.gitHubUsername);
-  const commits = await getCommits(repos[0]);
-  console.log(commits);
+  try {
+    const user = await getUser(1);
+    const repos = await getRepositories(user.gitHubUsername);
+    const commits = await getCommits(repos[0]);
+    console.log(commits);
+  } catch (err) {
+    console.log("Error", err.message);
+  }
 }
 // Async and await is syntacitcal sugar
 displayCommits();
@@ -40,8 +44,8 @@ function getUser(id) {
 function getRepositories(username) {
   return new Promise((resolve, reject) => {
     console.log("Calling GitHub API...");
-    resolve(["repo1", "repo2", "repo3"]);
-    // reject(new Error(" Promise Repo Reject"));
+    // resolve(["repo1", "repo2", "repo3"]);
+    reject(new Error(" Promise Repo Reject"));
   }, 2000);
 }
 
