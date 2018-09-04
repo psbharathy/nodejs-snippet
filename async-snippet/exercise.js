@@ -16,13 +16,13 @@
 
 async function displayMovies() {
   try {
-    const cust = await getCustomer(1);
-    console.log("Customer: ", cust);
-
-    const movies = await getTopMovies();
-    console.log("Top movies: ", movies);
-
-    const ema = await sendEmail(cust, movies);
+    const customer = await getCustomer(1);
+    console.log("Customer: ", customer);
+    if (customer.isGold) {
+      const movies = await getTopMovies();
+      console.log("Top movies: ", movies);
+      const ema = await sendEmail(customer, movies);
+    }
   } catch (err) {
     console.log("Error", err.message);
   }
