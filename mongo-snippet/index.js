@@ -28,9 +28,13 @@ async function createCourse() {
 
 // eq = equal ne = not equal like gt, gte, lt, lte, in, nin (not in)
 
-//  Comparison Opterators
+//  Comparison query Opterators
 // .find({'price': {$gte: 10, $lte: 20 }})
 // .find({'price':{$in:[10,20,30]}})
+
+//  Logical query Opterators => or, and
+// .find().or([{author:''Mosh'},{isPublished: ture}])
+// .find().and([{author:''Mosh'},{isPublished: ture}])
 
 async function getCourses() {
   const courses = await Course.find({ author: "PSB", isPublished: true })
