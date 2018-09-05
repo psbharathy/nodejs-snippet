@@ -47,8 +47,12 @@ async function createCourse() {
 // .find({author: /.*PS.*/})
 
 async function getCourses() {
+  const pageNumber = 1;
+  const pageSize = 1;
+
   const courses = await Course.find({ author: "PSB", isPublished: true })
-    .limit(2)
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize)
     .sort({ name: 1 }) // 1 indicates ascending -1 = descending
     .count();
   console.log(courses);
