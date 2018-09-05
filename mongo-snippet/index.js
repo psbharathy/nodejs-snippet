@@ -50,7 +50,7 @@ async function getCourses() {
   const courses = await Course.find({ author: "PSB", isPublished: true })
     .limit(2)
     .sort({ name: 1 }) // 1 indicates ascending -1 = descending
-    .select({ name: 1, tags: 1 });
+    .count();
   console.log(courses);
 }
 
