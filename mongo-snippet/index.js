@@ -22,10 +22,15 @@ async function createCourse() {
     tags: ["Angular", "frontend"],
     isPublished: true
   });
-
   const result = await course.save();
   console.log(result);
 }
+
+// eq = equal ne = not equal like gt, gte, lt, lte, in, nin (not in)
+
+//  Comparison Opterators
+// .find({'price': {$gte: 10, $lte: 20 }})
+// .find({'price':{$in:[10,20,30]}})
 
 async function getCourses() {
   const courses = await Course.find({ author: "PSB", isPublished: true })
