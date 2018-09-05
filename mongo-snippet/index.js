@@ -36,6 +36,16 @@ async function createCourse() {
 // .find().or([{author:''Mosh'},{isPublished: ture}])
 // .find().and([{author:''Mosh'},{isPublished: ture}])
 
+// Regular Experssions
+// ^ is represents string starts with
+// .find({author: /^PS/})
+// Ends with  $ = string ends with
+// .find({author: /B$/})
+// to make case insenstive add /i to pattern /^PS/i
+
+// Authors contains word ps
+// .find({author: /.*PS.*/})
+
 async function getCourses() {
   const courses = await Course.find({ author: "PSB", isPublished: true })
     .limit(2)
