@@ -31,7 +31,7 @@ async function getCourses() {
 }
 
 async function updateCourse(id) {
-  const course = Course.findOneAndUpdate(
+  const course = await Course.findOneAndUpdate(
     id,
     { author: "Adam Dave", isPublished: false },
     function(err, data) {
@@ -41,14 +41,26 @@ async function updateCourse(id) {
   return true;
 }
 
-updateCourse("5a68fdc3615eda645bc6bdec");
+async function removeCourse(id) {
+  const result = await Course.findOneAndRemove({ _id: id }, function(
+    err,
+    data
+  ) {
+    // if (!err) console.log(data);
+  });
+  console.log("result", result);
+}
+
+// updateCourse("5a68fdc3615eda645bc6bdec");
+
+// removeCourse("5a68fde3f09ad7646ddec17e");
 
 async function run() {
   // const courses = await getCourses();
   try {
-    // await updateCourse("5a68fdc3615eda645bc6bdec");
+    return await removeCourse("5a68fde3f09ad7646ddec17e");
   } catch (error) {
     console.log("Error", error.message);
   }
 }
-// run();
+run();
