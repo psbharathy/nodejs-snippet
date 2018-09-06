@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.set("debug", false);
 // Connecting to MongoDB
 mongoose
   .connect("mongodb://localhost/mongo-exercises")
@@ -28,8 +29,26 @@ async function getCourses() {
     .sort({ price: -1 })
     .select("name author price");
 }
-async function run() {
-  const courses = await getCourses();
-  console.log(courses);
+
+async function updateCourse(id) {
+  const course = Course.findOneAndUpdate(
+    id,
+    { author: "Adam Dave", isPublished: false },
+    function(err, data) {
+      if (!err) console.log(data);
+    }
+  );
+  return true;
 }
-run();
+
+updateCourse("5a68fdc3615eda645bc6bdec");
+
+async function run() {
+  // const courses = await getCourses();
+  try {
+    // await updateCourse("5a68fdc3615eda645bc6bdec");
+  } catch (error) {
+    console.log("Error", error.message);
+  }
+}
+// run();
