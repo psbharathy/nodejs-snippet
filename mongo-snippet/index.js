@@ -7,9 +7,23 @@ mongoose
 const courseSchema = new mongoose.Schema({
   name: { type: String, required: true }, // this is only used in mongoose
   author: String,
-  tags: [String],
+  // Custom Validator
+  tags: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return v && v.length > 0;
+      },
+      message: "A course should have at least one tag"
+    }
+  },
   date: { type: Date, default: Date.now },
   isPublished: Boolean,
+  category: {
+    type: String,
+    required: true,
+    enum: ["web", "mobile", "network"]
+  },
   price: {
     type: Number,
     required: function() {
@@ -25,10 +39,12 @@ const Course = mongoose.model("Course", courseSchema);
 
 async function createCourse() {
   const course = new Course({
-    // name: "Angular Course",
+    name: "NodeJs Validation Course",
     author: "PSB",
-    tags: ["Angular", "frontend"],
-    isPublished: true
+    tags: ["Nodejs", "Js"],
+    isPublished: true,
+    category: "web",
+    price: 20
   });
   try {
     const result = await course.save();
