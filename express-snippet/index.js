@@ -5,11 +5,17 @@ const logger = require("./middleware/logger");
 const categories = require("./routes/categories");
 const config = require("config");
 const webRoutes = require("./routes/web");
-
+const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 const helmet = require("helmet");
 const morgan = require("morgan");
+
+// Connecting to MongoDB
+mongoose
+  .connect("mongodb://localhost/shoping-exercises")
+  .then(() => console.log("Connected to Shoping..."))
+  .catch(err => console.log("Could not connect to Shoping", err.message));
 
 // This is a middleware piece
 // app.use();
@@ -30,7 +36,7 @@ console.log(config.get("mail.host"));
 
 // Creating Custom Middleware
 
-console.log("App Mail Password : " + config.get("mail.password"));
+// console.log("App Mail Password : " + config.get("mail.password"));
 if (app.get("env") === "development") {
   app.use(morgan("tiny"));
   startDebugger("Morgan enbaled");

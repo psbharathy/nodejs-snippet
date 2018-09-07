@@ -92,7 +92,7 @@ async function getCourses() {
   const pageNumber = 1;
   const pageSize = 1;
 
-  const courses = await Course.findOne({ _id: "5b92158244c31622bcb6b0b8" })
+  const courses = await Course.find({ _id: "5b92158244c31622bcb6b0b8" })
     // .skip((pageNumber - 1) * pageSize)
     // .limit(pageSize)
     .sort({ name: 1, price: 1 }) // 1 indicates ascending -1 = descending

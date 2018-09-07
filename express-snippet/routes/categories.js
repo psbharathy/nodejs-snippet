@@ -1,64 +1,68 @@
+const mongoose = require("mongoose");
+
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
 
-const categories = [
-  { id: 1, name: "Book" },
-  { id: 2, name: "Art" },
-  { id: 3, name: "Computer" }
-];
+const Category = mongoose.model(
+  "Category",
+  new mongoose.Schema({
+    name: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 50
+    }
+  })
+);
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+  const categories = await Category.find().sort("name");
   res.send(categories);
 });
 
-router.put("/:id", (req, res) => {
+router.post("/", async (req, res) => {
+  // validate the course
+  // Object Destrurting {error}
+  const { error } = validateCatrgory(req.body); // result.error
+  if (error) return res.status(400).send(error.details[0].message);
+  try {
+    let category = new Category({ name: req.body.name });
+    category = await category.save();
+    res.send(category);
+  } catch (ex) {
+    return res.status(400).send(ex.message);
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  // Object Destrurting {error}
+  const { error } = validateCatrgory(req.body); // result.error
+  if (error) return res.status(400).send(error.details[0].message);
+
   // Look up the course
-  // if not retrun 404
-  const category = categories.find(c => c.id === parseInt(req.params.id));
+  const category = await Category.findByIdAndUpdate(
+    req.params.id,
+    { name: req.body.name },
+    { new: true }
+  );
   if (!category)
     return res.status(404).send(`the Category not found ${req.params.id}`);
 
-  // validate the course
-  // Object Destrurting {error}
-  const { error } = validateCatrgory(req.body); // result.error
-  if (error) return res.status(400).send(error.details[0].message);
-
-  // update the coure
-  category.name = req.body.name;
-  res.send(category);
-
-  // return updated course
-});
-
-router.post("/", (req, res) => {
-  // validate the course
-  // Object Destrurting {error}
-  const { error } = validateCatrgory(req.body); // result.error
-  if (error) return res.status(400).send(error.details[0].message);
-
-  const category = {
-    id: categories.length + 1,
-    name: req.body.name
-  };
-  categories.push(category);
   res.send(category);
 });
 
-router.get("/:id", (req, res) => {
-  const category = categories.find(c => c.id === parseInt(req.params.id));
+router.delete("/:id", async (req, res) => {
+  const category = await Category.findByIdAndRemove(req.params.id);
   if (!category)
     return res.status(404).send(`the Category not found ${req.params.id}`);
   res.send(category);
 });
 
-router.delete("/:id", (req, res) => {
-  const category = categories.find(c => c.id === parseInt(req.params.id));
+router.get("/:id", async (req, res) => {
+  const category = await Category.findById(req.params.id);
   if (!category)
     return res.status(404).send(`the Category not found ${req.params.id}`);
-
-  const index = categories.indexOf(category);
-  categories.splice(index, 1);
   res.send(category);
 });
 
