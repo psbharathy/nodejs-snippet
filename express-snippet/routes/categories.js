@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+mongoose.set("debug", false);
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");

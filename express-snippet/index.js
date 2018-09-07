@@ -3,6 +3,7 @@ const dbDebugger = require("debug")("app:db");
 
 const logger = require("./middleware/logger");
 const categories = require("./routes/categories");
+const customers = require("./routes/customers");
 const config = require("config");
 const webRoutes = require("./routes/web");
 const mongoose = require("mongoose");
@@ -46,6 +47,8 @@ if (app.get("env") === "development") {
 app.use("/", webRoutes);
 // Categories Route
 app.use("/api/categories", categories);
+// Customers Route
+app.use("/api/customers", customers);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on Port ${port}...`));
