@@ -5,7 +5,7 @@ mongoose
   .catch(err => console.log("Could not connect to MongoDB", err.message));
 
 const courseSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true }, // this is only used in mongoose
   author: String,
   tags: [String],
   date: { type: Date, default: Date.now },
@@ -17,13 +17,17 @@ const Course = mongoose.model("Course", courseSchema);
 
 async function createCourse() {
   const course = new Course({
-    name: "Angular Course",
+    // name: "Angular Course",
     author: "PSB",
     tags: ["Angular", "frontend"],
     isPublished: true
   });
-  const result = await course.save();
-  console.log(result);
+  try {
+    const result = await course.save();
+    console.log(result);
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 // eq = equal ne = not equal like gt, gte, lt, lte, in, nin (not in)
@@ -58,5 +62,5 @@ async function getCourses() {
   console.log(courses);
 }
 
-getCourses();
-// createCourse();
+// getCourses();
+createCourse();
