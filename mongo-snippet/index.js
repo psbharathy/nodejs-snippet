@@ -17,7 +17,7 @@ const courseSchema = new mongoose.Schema({
         setTimeout(() => {
           const result = v && v.length > 0;
           callback(result);
-        }, 4000);
+        }, 2000);
       },
       message: "A course should have at least one tag"
     }
@@ -27,13 +27,20 @@ const courseSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ["web", "mobile", "network"]
+    enum: ["web", "mobile", "network"],
+    lowercase: true,
+    // uppercase: true,
+    trim: true
   },
   price: {
     type: Number,
     required: function() {
       return this.isPublished;
-    }
+    },
+    min: 10,
+    max: 200,
+    get: v => Math.round(v),
+    set: v => Math.round(v)
   }
 });
 
@@ -46,10 +53,10 @@ async function createCourse() {
   const course = new Course({
     name: "NodeJs Validation Course",
     author: "PSB",
-    tags: null,
+    tags: ["web"],
     isPublished: true,
-    category: "webs",
-    price: 20
+    category: "WEB",
+    price: 20.7
   });
   try {
     const result = await course.save();
@@ -85,13 +92,13 @@ async function getCourses() {
   const pageNumber = 1;
   const pageSize = 1;
 
-  const courses = await Course.find({ author: "PSB", isPublished: true })
-    .skip((pageNumber - 1) * pageSize)
-    .limit(pageSize)
-    .sort({ name: 1 }) // 1 indicates ascending -1 = descending
+  const courses = await Course.findOne({ _id: "5b92158244c31622bcb6b0b8" })
+    // .skip((pageNumber - 1) * pageSize)
+    // .limit(pageSize)
+    .sort({ name: 1, price: 1 }) // 1 indicates ascending -1 = descending
     .count();
-  console.log(courses);
+  console.log(courses[0].price);
 }
 
-// getCourses();
-createCourse();
+getCourses();
+// createCourse();
