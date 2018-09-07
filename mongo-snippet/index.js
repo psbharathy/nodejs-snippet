@@ -46,16 +46,18 @@ async function createCourse() {
   const course = new Course({
     name: "NodeJs Validation Course",
     author: "PSB",
-    tags: ["Nodejs", "Js"],
+    tags: null,
     isPublished: true,
-    category: "web",
+    category: "webs",
     price: 20
   });
   try {
     const result = await course.save();
     console.log(result);
-  } catch (error) {
-    console.log(error.message);
+  } catch (ex) {
+    for (field in ex.errors) {
+      console.log(ex.errors[field].message);
+    }
   }
 }
 
