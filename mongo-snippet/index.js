@@ -9,8 +9,16 @@ const courseSchema = new mongoose.Schema({
   author: String,
   tags: [String],
   date: { type: Date, default: Date.now },
-  isPublished: Boolean
+  isPublished: Boolean,
+  price: {
+    type: Number,
+    required: function() {
+      return this.isPublished;
+    }
+  }
 });
+
+// Aditional Validator {minlength:5, maxlength:255, enum:[cat, cat2]}
 
 // Creating a Mongo DB Model
 const Course = mongoose.model("Course", courseSchema);
