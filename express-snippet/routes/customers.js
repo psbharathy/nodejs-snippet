@@ -85,8 +85,11 @@ function validateCustomer(cutomer) {
     name: Joi.string()
       .min(3)
       .required(),
-    isGold: Joi.required(),
-    phone: Joi.required()
+    phone: Joi.string()
+      .required()
+      .min(5)
+      .max(12),
+    isGold: Joi.boolean().required()
   };
   return Joi.validate(cutomer, schema);
 }
