@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { customerSchema } = require("./customer");
+const { movieSchema } = require("./movie");
 
 const rentalSchema = new mongoose.Schema({
+  customer: { type: customerSchema },
+  movie: { type: movieSchema },
   dateOut: {
     type: Date,
     required: true,
@@ -30,4 +34,4 @@ function validateRental(rental) {
 
 module.exports.Rental = Rental;
 module.exports.rentalSchema = rentalSchema;
-exports.validate = validateRental;
+module.exports.validate = validateRental;
