@@ -5,7 +5,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const movies = await Movies.find().sort("name");
+  const movies = await Movie.find().sort("name");
   res.send(movies);
 });
 
@@ -34,6 +34,13 @@ router.post("/", async (req, res) => {
   } catch (ex) {
     console.log("Unable to Save Movies", ex.message);
   }
+});
+
+router.get("/:id", async (req, res) => {
+  const movie = await Movie.findById(req.params.id);
+
+  if (!movie) return res.status(400).send("Invalid Movie.");
+  res.send(movie);
 });
 
 module.exports = router;
