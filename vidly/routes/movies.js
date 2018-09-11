@@ -36,6 +36,28 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  const genre = await Genre.findById(req.body.genreId);
+
+  if (!genre) return res.status(400).send("Invalid genre.");
+
+  const movie = await Movie.findByIdAndUpdate(
+    req.params.id,
+    {
+      title: req.body.title,
+      genre: {
+        _id: genre._id,
+        name: genre.name
+      },
+      numberInStock: req.body.numberInStock,
+      dailyRentalRate: req.body.dailyRentalRate
+    },
+    { new: true }
+  );
+  if (!movie) return res.status(400).send("Invalid Movie.");
+  res.send(movie);
+});
+
 router.get("/:id", async (req, res) => {
   const movie = await Movie.findById(req.params.id);
 
