@@ -37,9 +37,14 @@ async function listCourses() {
 }
 
 async function updateCourse(courseId) {
-  const course = await Course.findById(courseId);
-  course.author.name = "Bharathy";
-  course.save();
+  const course = await Course.findByIdAndUpdate(
+    { _id: courseId },
+    {
+      $set: {
+        "author.name": "ps bharathy"
+      }
+    }
+  );
 }
 // createCourse("Node Course", new Author({ name: "Mosh" }));
 
