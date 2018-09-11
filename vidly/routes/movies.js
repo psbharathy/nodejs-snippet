@@ -43,4 +43,11 @@ router.get("/:id", async (req, res) => {
   res.send(movie);
 });
 
+router.delete("/:id", async (req, res) => {
+  const movie = await Movie.findByIdAndRemove(req.params.id);
+
+  if (!movie) return res.status(400).send("Invalid Movie.");
+  res.send(movie);
+});
+
 module.exports = router;
