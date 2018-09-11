@@ -46,9 +46,18 @@ async function updateCourse(courseId) {
     }
   );
 }
-createCourse("Node Course", [
-  new Author({ name: "Bharaty" }),
-  new Author({ name: "PSB" })
-]);
+
+async function addAuthor(courseId, author) {
+  const course = await Course.findById(courseId);
+  course.authors.push(author);
+  course.save();
+  console.log("Author added to course ...");
+}
+
+addAuthor("5b974ada15341c1fbcf9bd38", new Author({ name: "Deekshi" }));
+// createCourse("Node Course", [
+//   new Author({ name: "Bharaty" }),
+//   new Author({ name: "PSB" })
+// ]);
 
 // updateCourse("5b961ded10639f2780b7984f");
