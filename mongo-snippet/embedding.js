@@ -40,8 +40,8 @@ async function updateCourse(courseId) {
   const course = await Course.findByIdAndUpdate(
     { _id: courseId },
     {
-      $set: {
-        "author.name": "ps bharathy"
+      $unset: {
+        author: ""
       }
     }
   );
