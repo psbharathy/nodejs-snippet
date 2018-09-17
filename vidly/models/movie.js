@@ -33,6 +33,7 @@ function validateMovie(movie) {
       .min(5)
       .max(50)
       .required(),
+    genreId: Joi.objectId().required(),
     numberInStock: Joi.number().required(),
     dailyRentalRate: Joi.number().required()
   };
