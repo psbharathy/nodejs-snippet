@@ -1,25 +1,45 @@
 const { Rental, validate } = require("../models/rental");
-const mongoose = require("mongoose");
+const { Movie } = require("../models/movie");
+const { Customer } = require("../models/customer");
 const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const rentals = await Rental.find();
+  const rentals = await Rental.find().sort("-dateOut");
   res.send(rentals);
 });
 
 router.post("/", async (req, res) => {
+  console.log(req.body);
   const { error } = validate(req.body);
-  console.log(error.details[0].message);
   if (error) return res.status(400).status(error.details[0].message);
 
-  // let rental = new Rental({
-  //   dateOut: req.body.dateOut,
-  //   dateReturned: req.body.dateReturned,
-  //   rentalFee: req.body.rentalFee
-  // });
-  // rental = await rental.save();
-  res.send({ name: "sss" });
+  const customer = await Customer.findById(req.body.customerId);
+  if (!customer) return res.status(400).send("Invalid Customer");
+
+  const movie = await Movie.findById(req.body.movieId);
+
+  if (!movie) return res.status(400).send("Invalid Movie");
+
+  if (!movie.numberInStock === 0)
+    return res.status(400).send("Movie Stock Not available");
+  let rental = new Rental({
+    customer: {
+      _id: customer._id,
+      name: customer.name,
+      phone: customer.phone
+    },
+    movie: {
+      _id: movie._id,
+      title: movie.title,
+      dailyRentalRate: movie.dailyRentalRate
+    }
+  });
+  rental = await rental.save();
+  movie.numberInStock--;
+  movie.save();
+
+  res.send(rental);
 });
 
 module.exports = router;
