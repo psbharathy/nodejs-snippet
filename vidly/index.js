@@ -1,3 +1,6 @@
+require("express-async-errors");
+const error = require("./middleware/error");
+const winston = require("winston");
 const config = require("config");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
@@ -10,7 +13,8 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const express = require("express");
 const app = express();
-const exception = require("./middleware/exception");
+winston.add(winston.transports.File, { filename: "logs/errors.log" });
+
 if (!config.get("jwtPrivateKey")) {
   console.error("jwtPrivateKey key is not defined");
   process.exit(1);
@@ -28,7 +32,7 @@ app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 
-app.use(exception);
+app.use(error);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
