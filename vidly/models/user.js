@@ -1,6 +1,7 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
-
+const jwt = require("jsonwebtoken");
+const config = require("config");
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -22,6 +23,12 @@ const userSchema = new mongoose.Schema({
     maxlength: 1024
   }
 });
+
+// arrow function should not be used on this operator , this in reference calling function
+// we can use only regular function syntax
+userSchema.methods.generateAuthToken = function() {
+  return jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+};
 const User = mongoose.model("Users", userSchema);
 
 function validateUser(user) {
