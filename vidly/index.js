@@ -15,23 +15,12 @@ const auth = require("./routes/auth");
 const express = require("express");
 const app = express();
 
-// Uncaught exceptions
-// This only works in synchrous code
-process.on("uncaughtException", ex => {
-  console.log("Un Caught Exception");
-  winston.error(ex.message, ex);
-  // to kill the process
-  process.exit(1);
-});
 winston.handleExceptions(
   new winston.transports.File({ filename: "logs/unCaughtErrors.log" })
 );
 // asynchrous code
 process.on("unhandledRejection", ex => {
-  console.log("Un Caught Exception");
-  winston.error(ex.message, ex);
-  // to kill the process
-  process.exit(1);
+  throw ex;
 });
 
 winston.add(winston.transports.File, { filename: "logs/errors.log" });
@@ -43,8 +32,8 @@ winston.add(winston.transports.MongoDB, {
 // Example Un Caught Exceptions Sync
 // throw new Error("Something Failed During StartUp..!");
 // Asynchrouns UnhandledPromise
-const p = Promise.reject(new Error("Async Somtheing Failed"));
-p.then(() => console.log("Done"));
+// const p = Promise.reject(new Error("Async Somtheing Failed"));
+// p.then(() => console.log("Done"));
 
 if (!config.get("jwtPrivateKey")) {
   console.error("jwtPrivateKey key is not defined");
