@@ -1,6 +1,2 @@
-{"level":"info","message":"Connected to MongoDB...","timestamp":"2018-09-20T12:57:29.031Z"}
-{"level":"info","message":"Connected to MongoDB...","timestamp":"2018-09-20T12:58:47.014Z"}
-{"level":"info","message":"Connected to MongoDB...","timestamp":"2018-09-20T12:58:57.720Z"}
-{"level":"info","message":"Connected to MongoDB...","timestamp":"2018-09-20T12:59:12.766Z"}
-{"level":"info","message":"Connected to MongoDB...","timestamp":"2018-09-20T13:01:30.677Z"}
-{"level":"info","message":"Connected to MongoDB...","timestamp":"2018-09-20T13:01:33.697Z"}
+{"level":"info","message":"Listening on port 3000...","timestamp":"2018-09-20T13:16:00.266Z"}
+{"level":"info","message":"Connected to MongoDB...","timestamp":"2018-09-20T13:16:00.300Z"}
