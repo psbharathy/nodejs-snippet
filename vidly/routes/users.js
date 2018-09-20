@@ -3,6 +3,7 @@ const express = require("express");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const router = express.Router();
+const auth = require("../middleware/auth");
 
 router.get("/me", async (req, res) => {
   const user = await User.find().sort("name");
