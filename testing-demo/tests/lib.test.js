@@ -59,3 +59,27 @@ describe("getProduct", () => {
     expect(result).toHaveProperty("id", 1);
   });
 });
+
+describe("resgisterUser", () => {
+  it("should thorw if username is falsy", () => {
+    // falsy values in JS  NULL, Undefiend, Nan, '', 0 and false
+    expect(() => {
+      lib.registerUser(null);
+    }).toThrow();
+
+    // alternative approach for paramterized test
+    // what is single assertion principle
+    const args = [null, undefined, NaN, "", false];
+    args.forEach(a => {
+      expect(() => {
+        lib.registerUser(a);
+      }).toThrow();
+    });
+  });
+  // Happy Path
+  it("should return a user object if valid username is passed", () => {
+    const result = lib.registerUser("bharathy");
+    expect(result).toMatchObject({ username: "bharathy" });
+    expect(result.id).toBeGreaterThan(0);
+  });
+});
