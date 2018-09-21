@@ -107,5 +107,7 @@ describe("notifyCustomer", () => {
 
     lib.notifyCustomer({ customerId: 1 });
     expect(mail.send).toHaveBeenCalled();
+    expect(mail.send.mock.calls[0][0]).toBe("a");
+    expect(mail.send.mock.calls[0][1]).toMatch(/order/);
   });
 });
