@@ -18,3 +18,32 @@ describe("absolute", () => {
     expect(result).toBe(0);
   });
 });
+
+describe("gree", () => {
+  it("should retrun greeting message", () => {
+    const result = lib.greet("PS Bharathy");
+    expect(result).toMatch(/Bharathy/);
+    expect(result).toContain("Bharathy");
+  });
+});
+
+describe("getCurrencies", () => {
+  it("should return supported currencies", () => {
+    const result = lib.getCurrencies();
+    // Too genral
+    expect(result).toBeDefined();
+    expect(result).not.toBeNull();
+
+    // Too Specific
+    expect(result[0]).toBe("USD");
+    expect(result[1]).toBe("AUD");
+    expect(result[2]).toBe("EUR");
+    expect(result.length).toBe(3);
+
+    // Propoer way
+    expect(result).toContain("USD");
+
+    //Ideal way
+    expect(result).toEqual(expect.arrayContaining(["USD", "AUD", "EUR"]));
+  });
+});
