@@ -19,9 +19,9 @@ module.exports = function() {
   });
 
   winston.add(winston.transports.File, { filename: "logs/errors.log" });
-  // Database Log
-  winston.add(winston.transports.MongoDB, {
-    db: "mongodb://localhost/vidly",
-    level: "info"
-  });
+  // // Database Log
+  // winston.add(winston.transports.MongoDB, {
+  //   db: "mongodb://localhost/vidly",
+  //   level: "info"
+  // });
 };
