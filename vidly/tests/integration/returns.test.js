@@ -57,6 +57,7 @@ describe("/api/returns", () => {
   afterEach(async () => {
     await server.close();
     await Rental.remove({});
+    await Movie.remove({});
   });
 
   it("should return 401 if client not logged in", async () => {
@@ -117,5 +118,18 @@ describe("/api/returns", () => {
     const res = await exec();
     const movieInDb = await Movie.findById(movieId);
     expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
+  });
+
+  it("should return rental if valid input", async () => {
+    const res = await exec();
+    const rentalInDb = await Rental.findById(rental._id);
+    // expect(res.body).toHaveProperty("dateOut");
+    // expect(res.body).toHaveProperty("dateReturned");
+    // expect(res.body).toHaveProperty("customer");
+    // expect(res.body).toHaveProperty("movie");
+    // OR
+    expect(Object.keys(res.body)).toEqual(
+      expect.arrayContaining(["dateOut", "dateReturned", "customer", "movie"])
+    );
   });
 });
