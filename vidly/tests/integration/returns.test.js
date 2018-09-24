@@ -26,11 +26,17 @@ describe("/api/genres", () => {
   });
   // Close a Server connection
   afterEach(async () => {
-    server.close();
+    await server.close();
     await Rental.remove({});
   });
-  it("should works!", async () => {
-    const result = await Rental.findById(rental._id);
-    expect(result).not.toBeNull();
+
+  it("should return 401 if client not logged in", async () => {
+    const res = await request(server)
+      .post("/api/returns")
+      .send({
+        customerId,
+        movieId
+      });
+    expect(res.status).toBe(401);
   });
 });

@@ -12,8 +12,8 @@ describe("/api/genres", () => {
   });
   // Close a Server connection
   afterEach(async () => {
-    server.close();
     await Genre.remove({});
+    await server.close();
   });
 
   describe("GET /", () => {

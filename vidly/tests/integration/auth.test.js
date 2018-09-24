@@ -11,8 +11,8 @@ describe("auth middleware", () => {
   });
   // Close a Server connection
   afterEach(async () => {
+    await server.close();
     await Genre.remove({});
-    server.close();
   });
 
   // Define Happy path
