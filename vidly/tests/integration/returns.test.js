@@ -1,13 +1,17 @@
 const request = require("supertest");
 const { Rental } = require("../../models/rental");
+const { Movie } = require("../../models/movie");
 const { User } = require("../../models/user");
-
+const moment = require("moment");
 const mongoose = require("mongoose");
 
-describe("/api/genres", () => {
+describe("/api/returns", () => {
   let server;
   let customerId, movieId;
-  let rental, token;
+  let token;
+  let rental;
+  let movie;
+
   const exec = () => {
     return request(server)
       .post("/api/returns")
@@ -17,9 +21,21 @@ describe("/api/genres", () => {
 
   beforeEach(async () => {
     server = require("../../index");
-    let customerId = mongoose.Types.ObjectId();
-    let movieId = mongoose.Types.ObjectId();
+    customerId = mongoose.Types.ObjectId();
+    movieId = mongoose.Types.ObjectId();
     token = new User().generateAuthToken();
+
+    movie = new Movie({
+      _id: movieId,
+      title: "12345",
+      dailyRentalRate: 2,
+      genre: {
+        name: "12345"
+      },
+      numberInStock: 10
+    });
+    await movie.save();
+
     rental = new Rental({
       customer: {
         _id: customerId,
@@ -30,7 +46,9 @@ describe("/api/genres", () => {
         _id: movieId,
         title: "Movie Titile",
         dailyRentalRate: 2
-      }
+      },
+      // dateReturned: new Date(),
+      rentalfee: 10
     });
 
     await rental.save();
@@ -57,5 +75,47 @@ describe("/api/genres", () => {
     movieId = "";
     const res = await exec();
     expect(res.status).toBe(400);
+  });
+
+  it("should return 404 if no rental found for the customer/ movie", async () => {
+    await Rental.remove({});
+    const res = await exec();
+    expect(res.status).toBe(404);
+  });
+
+  it("should return 400 if return is already processed", async () => {
+    rental.dateReturned = new Date();
+    await rental.save();
+    const res = await exec();
+    expect(res.status).toBe(400);
+  });
+
+  it("should set the returnDate if valid request", async () => {
+    const res = await exec();
+    const rentalInDb = await Rental.findById(rental._id);
+    const diff = new Date() - rentalInDb.dateReturned;
+    expect(diff).toBeLessThan(10 * 1000);
+  });
+
+  it("should set the rentalFee if input is valid", async () => {
+    rental.dateOut = moment()
+      .add(-7, "days")
+      .toDate();
+    await rental.save();
+    const res = await exec();
+    const rentalInDb = await Rental.findById(rental._id);
+    const diff = new Date() - rentalInDb.dateReturned;
+    expect(rentalInDb.rentalfee).toBe(10);
+  });
+
+  it("should return 200 if valid request", async () => {
+    const res = await exec();
+    expect(res.status).toBe(200);
+  });
+
+  it("should increase the movie stock", async () => {
+    const res = await exec();
+    const movieInDb = await Movie.findById(movieId);
+    expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
   });
 });
